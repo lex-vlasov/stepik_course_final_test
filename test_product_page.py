@@ -1,8 +1,10 @@
 import pytest
 
+from .pages.login_page import LoginPage
 from .pages.basket_page import BasketPage
 from .pages.product_page import ProductPage
 from .pages.base_page import BasePage
+import time
 
 
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
@@ -73,4 +75,59 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
 
 
 
+@pytest.mark.user_add_product
+class TestUserAddToBasketFromProductPage():
 
+    @pytest.fixture(scope="function")
+    def setup(self, browser):
+        link = "https://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
+        page = LoginPage(browser, link)
+        page.open()
+        email = str(time.time()) + "@fakemail.org"
+        page.register_new_user(email=email, password="somepassword123")
+        page.should_be_authorized_user()
+
+
+
+
+    def test_user_cant_see_success_message(self, browser, setup):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser, link)
+        page.open()
+        page.should_not_be_success_message()
+
+
+    def test_user_can_add_product_to_basket(self, browser, setup):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
+        page = ProductPage(browser, link)
+        page.open()
+        page.add_product_to_basket()
+        page.solve_quiz_and_get_code()
+        page.should_check_add_product()
+
+
+
+
+
+
+# not yet exists
+# @pytest.mark.login
+# class TestLoginFromProductPage():
+#     @pytest.fixture(scope="function", autouse=True)
+#     def setup(self):
+#         self.product = ProductFactory(title="Best book created by robot")
+#         # создаем по апи
+#         self.link = self.product.link
+#         yield
+#         # после этого ключевого слова начинается teardown
+#         # выполнится после каждого теста в классе
+#         # удаляем те данные, которые мы создали
+#         self.product.delete()
+#
+#     def test_guest_can_go_to_login_page_from_product_page(self, browser):
+#         page = ProductPage(browser, self.link)
+#         # дальше обычная реализация теста
+#
+#     def test_guest_should_see_login_link(self, browser):
+#         page = ProductPage(browser, self.link)
+#         # дальше обычная реализация теста
