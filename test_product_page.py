@@ -95,6 +95,7 @@ class TestUserAddToBasketFromProductPage():
         page = ProductPage(browser, link)
         page.open()
         page.should_not_be_success_message()
+        page.should_be_authorized_user()
 
 
     def test_user_can_add_product_to_basket(self, browser, setup):
@@ -104,6 +105,7 @@ class TestUserAddToBasketFromProductPage():
         page.add_product_to_basket()
         page.solve_quiz_and_get_code()
         page.should_check_add_product()
+        page.should_be_authorized_user()
 
 
 
