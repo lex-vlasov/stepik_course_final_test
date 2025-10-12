@@ -34,26 +34,3 @@ def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
 
 
 
-
-
-#Login page separate tests
-
-# def test_login_page_url_is_correct(browser):
-#     link = "https://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
-#     page = LoginPage(browser, link)
-#     page.open()
-#     page.should_be_login_url()
-#
-#
-# def test_login_form_is_shown_on_login_page(browser):
-#     link = "https://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
-#     page = LoginPage(browser, link)
-#     page.open()
-#     page.should_be_login_form()
-#
-#
-# def test_register_form_is_shown_on_login_page(browser):
-#     link = "https://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
-#     page = LoginPage(browser, link)
-#     page.open()
-#     page.should_be_register_form()
